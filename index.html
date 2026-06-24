@@ -4,288 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJ Plus Security | Elite Protection Tanzania</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Syncopate:wght@700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bg-dark: #06162a;
-            --surface: #0a1f38;
-            --accent: #f4c025;
-            --accent-glow: rgba(244, 192, 37, 0.2);
-            --text-main: #ffffff;
-            --text-dim: #b0c4de;
-            --border: rgba(244, 192, 37, 0.2);
-            --header-height: 85px;
-            --top-bar-height: 40px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* --- Top Bar --- */
-        .top-bar {
-            background: #04101f;
-            height: var(--top-bar-height);
-            padding: 0 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-dim);
-            transition: transform 0.3s ease;
-            position: relative;
-            z-index: 1001;
-        }
-        .top-bar-info span { margin-right: 20px; }
-        .top-bar-info i { color: var(--accent); margin-right: 8px; }
-        .top-bar-socials a { color: var(--text-dim); margin-left: 15px; transition: 0.3s; }
-        .top-bar-socials a:hover { color: var(--accent); }
-
-        /* --- Navigation --- */
-        header {
-            position: fixed;
-            top: var(--top-bar-height);
-            width: 100%;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .header-scrolled {
-            top: 0 !important;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        nav {
-            width: 100%;
-            height: var(--header-height);
-            padding: 0 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(6, 22, 42, 0.95);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        .logo img { height: 45px; }
-
-        .nav-container { display: flex; align-items: center; gap: 40px; }
-        .nav-links { display: flex; list-style: none; gap: 30px; }
-        .nav-item { position: relative; }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dim);
-            font-weight: 500;
-            font-size: 0.85rem;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 30px 0;
-        }
-
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
-
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--surface);
-            min-width: 220px;
-            border: 1px solid var(--border);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: 0.3s;
-            padding: 15px 0;
-            border-radius: 4px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        .nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-
-        .dropdown a {
-            padding: 10px 25px !important;
-            text-transform: capitalize !important;
-            letter-spacing: 0 !important;
-            font-size: 0.9rem !important;
-            display: block !important;
-        }
-
-        .dropdown a:hover { background: rgba(244, 192, 37, 0.05); padding-left: 30px !important; }
-
-        .btn-cta {
-            background: var(--accent);
-            color: var(--bg-dark) !important;
-            padding: 10px 24px;
-            border-radius: 2px;
-            font-weight: 800;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 15px var(--accent-glow);
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .menu-toggle { display: none; font-size: 1.5rem; color: var(--accent); cursor: pointer; }
-
-        @media (max-width: 968px) {
-            .top-bar { display: none !important; }
-            header { top: 0 !important; }
-            .menu-toggle { display: block; }
-
-            .nav-links {
-                position: fixed;
-                top: var(--header-height);
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - var(--header-height));
-                background: var(--bg-dark);
-                flex-direction: column;
-                gap: 0;
-                transition: 0.4s;
-                overflow-y: auto;
-                padding: 40px 8%;
-            }
-
-            .nav-links.active { left: 0; }
-            .nav-links a { padding: 15px 0; font-size: 1.1rem; border-bottom: 1px solid var(--border); width: 100%; }
-            .dropdown { position: static; opacity: 1; visibility: visible; transform: none; background: transparent; border: none; display: none; padding-left: 20px; }
-            .nav-item:hover .dropdown { display: block; }
-            .values-highlight { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.8rem; }
-            .info-split, .footer-grid, .app-section { flex-direction: column; grid-template-columns: 1fr; }
-            .app-badges { justify-content: center; }
-        }
-
-        /* --- Hero --- */
-        .hero {
-            height: calc(100vh - var(--top-bar-height));
-            display: flex;
-            align-items: center;
-            padding: 0 8%;
-            background: linear-gradient(rgba(6, 22, 42, 0.85), rgba(6, 22, 42, 0.85)),
-                        url('assets/images/banner_698a970a27480.jpg');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .hero-content { max-width: 800px; z-index: 2; padding-top: 60px; }
-        .hero-tag { color: var(--accent); font-weight: 800; letter-spacing: 5px; display: block; margin-bottom: 20px; opacity: 0.9; }
-        .hero h1 { font-size: 4rem; line-height: 1.1; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; }
-        .hero p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 600px; }
-
-        /* --- Partners Slider --- */
-        .partners-section { background: #04101f; padding: 30px 0; border-bottom: 1px solid var(--border); overflow: hidden; position: relative; }
-        .slider { display: flex; width: 100%; }
-        .slider-track { display: flex; animation: scrollSeamless 30s linear infinite; width: max-content; }
-        .slider-track img { height: 35px; margin: 0 60px; filter: grayscale(1) brightness(1.5); opacity: 0.4; transition: 0.3s; }
-        .slider-track img:hover { opacity: 1; filter: grayscale(0) brightness(1); }
-        @keyframes scrollSeamless { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- Capabilities --- */
-        .section-label { text-align: center; padding: 100px 0 40px; color: var(--accent); letter-spacing: 4px; font-weight: 800; text-transform: uppercase; }
-        .services-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 8% 100px; }
-
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.4s ease; display: flex; flex-direction: column; height: 100%; cursor: pointer; }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .card-img { width: 100%; height: 220px; background-size: cover; background-position: center; }
-        .card-body { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-body h3 { margin-bottom: 15px; color: var(--accent); font-size: 1.3rem; }
-        .card-body p { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
-        .card-link { display: block; transition: transform 0.4s ease; text-decoration: none; color: inherit; }
-        .card-link:hover { transform: translateY(-10px); }
-        .btn-read-more { color: var(--accent); text-decoration: none; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
-        .card-link:hover .btn-read-more { gap: 15px; }
-
-        /* --- App Section --- */
-        .app-section { padding: 80px 8%; background: var(--surface); display: flex; align-items: center; justify-content: space-between; gap: 50px; }
-        .app-content h2 { font-size: 2.5rem; margin-bottom: 20px; }
-        .app-content p { color: var(--text-dim); margin-bottom: 30px; max-width: 500px; }
-        .app-badges { display: flex; gap: 20px; }
-        .app-badges img { height: 45px; cursor: pointer; transition: 0.3s; }
-        .app-badges img:hover { transform: scale(1.05); }
-
-        /* --- Reviews --- */
-        .reviews-section { padding: 100px 8%; background: #04101f; overflow: hidden; position: relative; padding-bottom: 60px; }
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .review-card { background: var(--surface); padding: 40px; border-left: 4px solid var(--accent); flex: 0 0 calc(50% - 10px); min-width: calc(50% - 10px); box-sizing: border-box; }
-        .stars { color: var(--accent); margin-bottom: 15px; }
-        .reviews-empty { text-align: center; color: var(--text-dim); padding: 40px; }
-
-        /* --- Stats Split --- */
-        .info-split { display: flex; background: var(--surface); margin: 0 8% 100px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-        .info-text { flex: 1; padding: 60px; }
-        .info-stats { flex: 1; background: var(--accent); padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; color: var(--bg-dark); }
-        .stat-box h2 { font-size: 3rem; font-weight: 800; }
-        .stat-box p { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; }
-
-        /* --- Footer --- */
-        footer { padding: 80px 8% 30px; background: #04101f; border-top: 1px solid var(--border); }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 40px; margin-bottom: 60px; }
-        .footer-logo h2 { font-family: 'Syncopate'; color: var(--accent); font-size: 1.4rem; margin-bottom: 15px; }
-        .footer-about p { color: var(--text-dim); font-size: 0.9rem; }
-        .footer-links h4 { color: var(--accent); margin-bottom: 25px; font-size: 1rem; text-transform: uppercase; }
-        .footer-links ul { list-style: none; }
-        .footer-links ul li { margin-bottom: 12px; }
-        .footer-links ul li a { text-decoration: none; color: var(--text-dim); font-size: 0.9rem; transition: 0.3s; }
-        .footer-links ul li a:hover { color: var(--accent); padding-left: 5px; }
-        .footer-contact p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .footer-contact i { color: var(--accent); }
-        .social-icons { display: flex; gap: 15px; margin-top: 25px; }
-        .social-icons a { width: 40px; height: 40px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-main); text-decoration: none; transition: 0.3s; }
-        .social-icons a:hover { background: var(--accent); color: var(--bg-dark); transform: translateY(-3px); }
-        .copyright { text-align: center; color: var(--text-dim); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; }
-
-        /* --- WhatsApp Floating Button --- */
-        .whatsapp-fab {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 58px;
-            height: 58px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            z-index: 1500;
-            text-decoration: none;
-            color: white;
-            font-size: 1.6rem;
-            transition: 0.3s;
-        }
-        .whatsapp-fab:hover { transform: scale(1.08); }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 
@@ -305,7 +28,7 @@
     <header id="mainHeader">
         <nav>
             <a href="/" class="logo">
-                <img src="assets/logo.png" alt="AJ Plus Security Logo" style="width: 80px; height: 80px;">
+                <img src="/assets/logo.png" alt="AJ Plus Security Logo" style="width: 80px; height: 80px;">
             </a>
 
             <div class="nav-container">
@@ -319,6 +42,10 @@
                             <a href="/service/construction-site-security">Construction Site Security</a>
                             <a href="/service/ajplus-security-dogs">AJPLUS SECURITY DOGS</a>
                             <a href="/service/intelligent-security-solutions">Intelligent Security Solutions</a>
+                            <a href="/service/vip-event-security">VIP & Event Security</a>
+                            <a href="/service/mobile-patrol-alarm-response">Mobile Patrol & Alarm Response</a>
+                            <a href="/service/cctv-remote-monitoring">CCTV & Remote Monitoring</a>
+                            <a href="/service/cash-in-transit">Cash-in-Transit & Asset Escort</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -354,25 +81,25 @@
     <div class="partners-section">
         <div class="slider">
             <div class="slider-track">
-                <img src="assets/images/partner-1.png" alt="Partner">
-                <img src="assets/images/partner-2.png" alt="Partner">
-                <img src="assets/images/partner-3.png" alt="Partner">
-                <img src="assets/images/partner-4.jpg" alt="Partner">
-                <img src="assets/images/partner-5.jpg" alt="Partner">
-                <img src="assets/images/partner-6.jpg" alt="Partner">
-                <img src="assets/images/partner-7.png" alt="Partner">
-                <img src="assets/images/partner-8.jpg" alt="Partner">
-                <img src="assets/images/partner-9.png" alt="Partner">
+                <img src="/assets/images/partner-1.png" alt="Partner">
+                <img src="/assets/images/partner-2.png" alt="Partner">
+                <img src="/assets/images/partner-3.png" alt="Partner">
+                <img src="/assets/images/partner-4.jpg" alt="Partner">
+                <img src="/assets/images/partner-5.jpg" alt="Partner">
+                <img src="/assets/images/partner-6.jpg" alt="Partner">
+                <img src="/assets/images/partner-7.png" alt="Partner">
+                <img src="/assets/images/partner-8.jpg" alt="Partner">
+                <img src="/assets/images/partner-9.png" alt="Partner">
                 <!-- duplicated set for seamless loop -->
-                <img src="assets/images/partner-1.png" alt="Partner">
-                <img src="assets/images/partner-2.png" alt="Partner">
-                <img src="assets/images/partner-3.png" alt="Partner">
-                <img src="assets/images/partner-4.jpg" alt="Partner">
-                <img src="assets/images/partner-5.jpg" alt="Partner">
-                <img src="assets/images/partner-6.jpg" alt="Partner">
-                <img src="assets/images/partner-7.png" alt="Partner">
-                <img src="assets/images/partner-8.jpg" alt="Partner">
-                <img src="assets/images/partner-9.png" alt="Partner">
+                <img src="/assets/images/partner-1.png" alt="Partner">
+                <img src="/assets/images/partner-2.png" alt="Partner">
+                <img src="/assets/images/partner-3.png" alt="Partner">
+                <img src="/assets/images/partner-4.jpg" alt="Partner">
+                <img src="/assets/images/partner-5.jpg" alt="Partner">
+                <img src="/assets/images/partner-6.jpg" alt="Partner">
+                <img src="/assets/images/partner-7.png" alt="Partner">
+                <img src="/assets/images/partner-8.jpg" alt="Partner">
+                <img src="/assets/images/partner-9.png" alt="Partner">
             </div>
         </div>
     </div>
@@ -381,7 +108,7 @@
     <section class="services-container">
         <a href="/service/manned-guarding" class="card-link">
             <div class="card">
-                <div class="card-img" style="background-image: url('assets/images/service-manned-guarding.jpg');"></div>
+                <div class="card-img" style="background-image: url('/assets/images/service-manned-guarding.jpg');"></div>
                 <div class="card-body">
                     <h3>Manned Guarding</h3>
                     <p>Our Manned Guarding service delivers a strong and visible security presence, safeguarding your premises around the clock.</p>
@@ -391,7 +118,7 @@
         </a>
         <a href="/service/construction-site-security" class="card-link">
             <div class="card">
-                <div class="card-img" style="background-image: url('assets/images/service-construction.jpeg');"></div>
+                <div class="card-img" style="background-image: url('/assets/images/service-construction.jpeg');"></div>
                 <div class="card-body">
                     <h3>Construction Site Security</h3>
                     <p>Prevent theft, vandalism, and unauthorized access at construction sites. Our guards monitor equipment around the clock.</p>
@@ -401,7 +128,7 @@
         </a>
         <a href="/service/ajplus-security-dogs" class="card-link">
             <div class="card">
-                <div class="card-img" style="background-image: url('assets/images/service-dogs.jpg');"></div>
+                <div class="card-img" style="background-image: url('/assets/images/service-dogs.jpg');"></div>
                 <div class="card-body">
                     <h3>AJPLUS Security Dogs</h3>
                     <p>Our Security Dog Section provides expertly trained security dogs and handlers to safeguard your premises.</p>
@@ -411,10 +138,50 @@
         </a>
         <a href="/service/intelligent-security-solutions" class="card-link">
             <div class="card">
-                <div class="card-img" style="background-image: url('assets/images/service-intelligent.jpg');"></div>
+                <div class="card-img" style="background-image: url('/assets/images/service-intelligent.jpg');"></div>
                 <div class="card-body">
                     <h3>Intelligent Security Solutions</h3>
                     <p>AJ Plus Security introduces 'Hakuna', a cutting-edge, tech-driven security service combining surveillance and rapid response.</p>
+                    <span class="btn-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        <a href="/service/vip-event-security" class="card-link">
+            <div class="card">
+                <div class="card-icon-top"><i class="fas fa-user-shield"></i></div>
+                <div class="card-body">
+                    <h3>VIP & Event Security</h3>
+                    <p>Discreet close protection for executives and dignitaries, plus full security planning for conferences, weddings, and large gatherings.</p>
+                    <span class="btn-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        <a href="/service/mobile-patrol-alarm-response" class="card-link">
+            <div class="card">
+                <div class="card-icon-top"><i class="fas fa-car-side"></i></div>
+                <div class="card-body">
+                    <h3>Mobile Patrol & Alarm Response</h3>
+                    <p>Randomized vehicle patrols across your sites with armed rapid-response teams dispatched the moment an alarm is triggered.</p>
+                    <span class="btn-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        <a href="/service/cctv-remote-monitoring" class="card-link">
+            <div class="card">
+                <div class="card-icon-top"><i class="fas fa-video"></i></div>
+                <div class="card-body">
+                    <h3>CCTV & Remote Monitoring</h3>
+                    <p>HD camera installation backed by our 24/7 control room, watching your premises in real time long after the cameras go up.</p>
+                    <span class="btn-read-more">Read More <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        </a>
+        <a href="/service/cash-in-transit" class="card-link">
+            <div class="card">
+                <div class="card-icon-top"><i class="fas fa-truck-moving"></i></div>
+                <div class="card-body">
+                    <h3>Cash-in-Transit & Asset Escort</h3>
+                    <p>Armed escort and secure logistics for cash movements, high-value goods, and assets that cannot afford a single point of failure.</p>
                     <span class="btn-read-more">Read More <i class="fas fa-arrow-right"></i></span>
                 </div>
             </div>
@@ -489,6 +256,10 @@
                     <li><a href="/service/construction-site-security">Construction Site Security</a></li>
                     <li><a href="/service/ajplus-security-dogs">AJPLUS Security Dogs</a></li>
                     <li><a href="/service/intelligent-security-solutions">Intelligent Security Solutions</a></li>
+                    <li><a href="/service/vip-event-security">VIP & Event Security</a></li>
+                    <li><a href="/service/mobile-patrol-alarm-response">Mobile Patrol & Alarm Response</a></li>
+                    <li><a href="/service/cctv-remote-monitoring">CCTV & Remote Monitoring</a></li>
+                    <li><a href="/service/cash-in-transit">Cash-in-Transit & Asset Escort</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
