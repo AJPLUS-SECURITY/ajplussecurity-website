@@ -210,11 +210,11 @@
         .hero p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 600px; }
 
         /* --- Partners Slider --- */
-        .partners-section { background: #04101f; padding: 30px 0; border-bottom: 1px solid var(--border); overflow: hidden; position: relative; }
+        .partners-section { background: #04101f; padding: 50px 0; border-bottom: 1px solid var(--border); overflow: hidden; position: relative; }
         .slider { display: flex; width: 100%; }
-        .slider-track { display: flex; animation: scrollSeamless 30s linear infinite; width: max-content; }
-        .slider-track img { height: 35px; margin: 0 60px; opacity: 0.85; transition: 0.3s; }
-        .slider-track img:hover { opacity: 1; }
+        .slider-track { display: flex; align-items: center; animation: scrollSeamless 30s linear infinite; width: max-content; }
+        .slider-track img { height: 55px; margin: 0 40px; padding: 10px 18px; background: #fff; border-radius: 8px; opacity: 1; transition: 0.3s; }
+        .slider-track img:hover { transform: scale(1.05); }
         @keyframes scrollSeamless { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- Capabilities --- */
