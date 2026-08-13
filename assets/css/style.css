@@ -213,8 +213,8 @@
         .partners-section { background: #04101f; padding: 30px 0; border-bottom: 1px solid var(--border); overflow: hidden; position: relative; }
         .slider { display: flex; width: 100%; }
         .slider-track { display: flex; animation: scrollSeamless 30s linear infinite; width: max-content; }
-        .slider-track img { height: 35px; margin: 0 60px; filter: grayscale(1) brightness(1.5); opacity: 0.4; transition: 0.3s; }
-        .slider-track img:hover { opacity: 1; filter: grayscale(0) brightness(1); }
+        .slider-track img { height: 35px; margin: 0 60px; opacity: 0.85; transition: 0.3s; }
+        .slider-track img:hover { opacity: 1; }
         @keyframes scrollSeamless { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- Capabilities --- */
