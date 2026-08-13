@@ -220,6 +220,25 @@
 
         /* --- Capabilities --- */
         .section-label { text-align: center; padding: 100px 0 40px; color: var(--accent); letter-spacing: 4px; font-weight: 800; text-transform: uppercase; }
+
+        .values-highlight {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 8%;
+        }
+        .value-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: left;
+        }
+        .value-card i { color: var(--accent); font-size: 1.8rem; margin-bottom: 20px; display: block; }
+        .value-card h3 { font-size: 1.2rem; margin-bottom: 12px; }
+        .value-card p { color: var(--text-dim); font-size: 0.98rem; line-height: 1.7; }
         .services-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 8% 100px; }
 
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.4s ease; display: flex; flex-direction: column; height: 100%; cursor: pointer; }
