@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News & Blogs | AJ Plus Security</title>
+    <link rel="canonical" href="https://ajplussecurity.co.tz/blogs/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AJ Plus Security">
+    <meta property="og:title" content="News & Blogs | AJ Plus Security">
+    <meta property="og:description" content="Insights, updates, and security guidance from the AJ Plus Security team.">
+    <meta property="og:url" content="https://ajplussecurity.co.tz/blogs/">
+    <meta property="og:image" content="https://ajplussecurity.co.tz/assets/images/hero-slide-1.jpg">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="description" content="Insights, updates, and security guidance from the AJ Plus Security team.">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -133,6 +141,25 @@
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlcHRzYmhidm14cGVmbWl2bXFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDM0ODksImV4cCI6MjA5NzUxOTQ4OX0.MjeMK8JyQqjOQ_Vu8KK6TDYS6bMt9KvCLJOK7nb1K2s"
         // ===============================================================
 
+        // ===== Security helpers: never insert raw database text into the page =====
+        function escapeHtml(str) {
+            const div = document.createElement('div')
+            div.textContent = str == null ? '' : String(str)
+            return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+        }
+
+        // Only allow https images; neutralise characters that could break out of src/url()
+        function safeImageUrl(url) {
+            try {
+                const u = new URL(String(url), window.location.origin)
+                if (u.protocol !== 'https:') return ''
+                return u.href.replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29')
+            } catch (err) {
+                return ''
+            }
+        }
+        // =========================================================================
+
         const topBar = document.getElementById('topBar')
         const header = document.getElementById('mainHeader')
         const menuToggle = document.getElementById('menuToggle')
@@ -162,12 +189,6 @@
             }
         }
 
-        function escapeHtml(str) {
-            const div = document.createElement('div')
-            div.textContent = str || ''
-            return div.innerHTML
-        }
-
         async function loadBlogs() {
             const grid = document.getElementById('blogGrid')
             try {
@@ -187,12 +208,13 @@
 
                 grid.innerHTML = data
                     .map(function (post) {
-                        const imgBlock = post.cover_image_url
-                            ? "<div class='card-img' style=\"background-image: url('" + post.cover_image_url + "');\"></div>"
+                        const coverUrl = safeImageUrl(post.cover_image_url)
+                        const imgBlock = coverUrl
+                            ? "<div class='card-img' style=\"background-image: url('" + coverUrl + "');\"></div>"
                             : "<div class='card-img' style='display:flex; align-items:center; justify-content:center; background:var(--surface);'><i class=\"fas fa-newspaper\" style='font-size:50px; color:var(--accent); opacity:0.4;'></i></div>"
 
                         return (
-                            "<a href='/blogs/post/?slug=" + encodeURIComponent(post.slug) + "' class='card-link'>" +
+                            "<a href='/blogs/post/?slug=" + escapeHtml(encodeURIComponent(post.slug)) + "' class='card-link'>" +
                             "<div class='card'>" +
                             imgBlock +
                             "<div class='card-body'>" +

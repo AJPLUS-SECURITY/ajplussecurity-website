@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">AJ Plus Security | News & Blogs</title>
+    <meta name="description" content="News, updates and security insights from AJPLUS Security, Tanzania.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AJ Plus Security">
+    <meta property="og:title" content="AJ Plus Security | News & Blogs">
+    <meta property="og:description" content="News, updates and security insights from AJPLUS Security, Tanzania.">
+    <meta property="og:url" content="https://ajplussecurity.co.tz/blogs/post/">
+    <meta property="og:image" content="https://ajplussecurity.co.tz/assets/images/hero-slide-1.jpg">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Syncopate:wght@700&display=swap" rel="stylesheet">
@@ -153,11 +161,48 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
     <script>
         // ===== CONFIG: Supabase project URL and anon (public) key =====
         const SUPABASE_URL = "https://veptsbhbvmxpefmivmqc.supabase.co"
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlcHRzYmhidm14cGVmbWl2bXFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NDM0ODksImV4cCI6MjA5NzUxOTQ4OX0.MjeMK8JyQqjOQ_Vu8KK6TDYS6bMt9KvCLJOK7nb1K2s"
         // ===============================================================
+
+        // ===== Security helpers: never insert raw database text into the page =====
+        function escapeHtml(str) {
+            const div = document.createElement('div')
+            div.textContent = str == null ? '' : String(str)
+            return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+        }
+
+        // Only allow https images; neutralise characters that could break out of src/url()
+        function safeImageUrl(url) {
+            try {
+                const u = new URL(String(url), window.location.origin)
+                if (u.protocol !== 'https:') return ''
+                return u.href.replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29')
+            } catch (err) {
+                return ''
+            }
+        }
+        // =========================================================================
+
+        // Article body is trusted-ish HTML written in the admin; sanitise it anyway.
+        function sanitizeArticle(html) {
+            if (window.DOMPurify) {
+                if (!window.__ajHookSet) {
+                    window.DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+                        if (node.tagName === 'A' && node.getAttribute('target')) {
+                            node.setAttribute('rel', 'noopener noreferrer')
+                        }
+                    })
+                    window.__ajHookSet = true
+                }
+                return window.DOMPurify.sanitize(html || '', { USE_PROFILES: { html: true }, ADD_ATTR: ['target'] })
+            }
+            // Fallback if the sanitiser failed to load: show plain text, never raw HTML
+            return "<div style='white-space:pre-wrap;'>" + escapeHtml(html) + "</div>"
+        }
 
         const topBar = document.getElementById('topBar')
         const header = document.getElementById('mainHeader')
@@ -221,16 +266,35 @@
 
                 document.getElementById('pageTitle').textContent = post.title + " | AJ Plus Security"
                 heading.textContent = post.title
+
+                // Keep SEO tags in sync with the article (Google renders JS; social crawlers may not)
+                const postUrl = window.location.origin + '/blogs/post/?slug=' + encodeURIComponent(slug)
+                const plain = String(post.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 155)
+                function setHead(sel, create, attr, val) {
+                    let el = document.querySelector(sel)
+                    if (!el) { el = document.createElement(create.tag); Object.keys(create.attrs).forEach(k => el.setAttribute(k, create.attrs[k])); document.head.appendChild(el) }
+                    el.setAttribute(attr, val)
+                }
+                setHead('link[rel="canonical"]', { tag: 'link', attrs: { rel: 'canonical' } }, 'href', postUrl)
+                setHead('meta[property="og:url"]', { tag: 'meta', attrs: { property: 'og:url' } }, 'content', postUrl)
+                setHead('meta[property="og:title"]', { tag: 'meta', attrs: { property: 'og:title' } }, 'content', post.title + ' | AJ Plus Security')
+                if (plain) {
+                    setHead('meta[name="description"]', { tag: 'meta', attrs: { name: 'description' } }, 'content', plain)
+                    setHead('meta[property="og:description"]', { tag: 'meta', attrs: { property: 'og:description' } }, 'content', plain)
+                }
+                const ogImg = safeImageUrl(post.cover_image_url)
+                if (ogImg) setHead('meta[property="og:image"]', { tag: 'meta', attrs: { property: 'og:image' } }, 'content', ogImg)
                 breadcrumbTitle.textContent = post.title
 
-                const coverHtml = post.cover_image_url
-                    ? "<img class='post-cover' src='" + post.cover_image_url + "' alt=\"" + post.title.replace(/"/g, '&quot;') + "\">"
+                const coverUrl = safeImageUrl(post.cover_image_url)
+                const coverHtml = coverUrl
+                    ? "<img class='post-cover' src='" + coverUrl + "' alt=\"" + escapeHtml(post.title) + "\">"
                     : ""
 
                 const metaHtml = "<p class='post-back'><a href='/blogs' style='color:var(--accent); text-decoration:none;'>&larr; Back to News & Blogs</a></p>" +
-                    "<p class='post-meta'>" + formatDate(post.created_at) + (post.author ? " &middot; " + post.author : "") + "</p>"
+                    "<p class='post-meta'>" + formatDate(post.created_at) + (post.author ? " &middot; " + escapeHtml(post.author) : "") + "</p>"
 
-                container.innerHTML = metaHtml + coverHtml + "<div class='post-body'>" + post.content + "</div>"
+                container.innerHTML = metaHtml + coverHtml + "<div class='post-body'>" + sanitizeArticle(post.content) + "</div>"
             } catch (err) {
                 heading.textContent = "Error"
                 container.innerHTML = "<p>Could not load this article right now. <a href='/blogs' style='color:var(--accent);'>Back to News & Blogs</a>.</p>"
