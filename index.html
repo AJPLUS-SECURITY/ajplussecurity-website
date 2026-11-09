@@ -97,7 +97,6 @@
         </div>
         <div class="top-bar-socials">
             <a href="https://www.facebook.com/share/1FduNsAj1Z/" target="_blank" rel="noopener" aria-label="AJPLUS on Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
             <a href="https://www.instagram.com/ajplus_security_services/" target="_blank" rel="noopener" aria-label="AJPLUS Security on Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://www.linkedin.com/in/john-fabian-mfoi-604088316" target="_blank" rel="noopener" aria-label="AJPLUS on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
@@ -338,23 +337,18 @@
             <div style="display:flex; gap: 20px; margin-top: 20px;">
                 <a href="/contacts"><button class="btn-cta" style="border:none; cursor:pointer; padding: 16px 36px;">REQUEST A DEMO</button></a>
             </div>
-            <div class="app-badges">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Play Store">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store">
-            </div>
         </div>
         <div class="app-image">
             <i class="fas fa-shield-halved" style="font-size: 150px; color: var(--accent); opacity: 0.1;"></i>
         </div>
     </section>
 
-    <section class="reviews-section">
+    <section class="reviews-section" id="reviewsSection" style="display:none;">
         <p class="hero-tag" style="text-align: center;">TRUSTED BY LEADERS</p>
         <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 50px;">Client Reviews</h2>
 
         <div class="reviews-viewport" style="overflow: hidden; width: 100%;">
             <div class="reviews-grid" id="reviewSlider">
-                <p class="reviews-empty" id="reviewsLoading">Gathering client feedback&hellip;</p>
             </div>
         </div>
     </section>
@@ -418,16 +412,16 @@
                     <a href="https://www.facebook.com/share/1FduNsAj1Z/" target="_blank" rel="noopener" aria-label="AJPLUS on Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/ajplus_security_services/" target="_blank" rel="noopener" aria-label="AJPLUS Security on Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/in/john-fabian-mfoi-604088316" target="_blank" rel="noopener" aria-label="AJPLUS on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
             <div class="footer-links">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Refund Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Cookies Policy</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/cleaning-services">Cleaning Services</a></li>
+                    <li><a href="/faqs">FAQs</a></li>
+                    <li><a href="/contacts">Request a Quote</a></li>
+                    <li><a href="/privacy-policy">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-links">
@@ -527,22 +521,6 @@
                 const data = await res.json()
 
                 if (!Array.isArray(data) || data.length === 0) {
-                    var fallback = [
-                        { rating: 5, comment: "Professional, disciplined and responsive security team.", client_name: "Operations Manager, Manufacturing Company" },
-                        { rating: 5, comment: "Reliable coverage and quick communication whenever we've needed them.", client_name: "Facilities Manager, Corporate Client" },
-                        { rating: 5, comment: "Their guards are well trained and the reporting keeps us informed at all times.", client_name: "Site Manager, Construction Project" }
-                    ]
-                    slider.innerHTML = fallback
-                        .map(function (r) {
-                            return (
-                                "<div class='review-card'>" +
-                                "<div class='stars'>" + starsHtml(r.rating) + "</div>" +
-                                "<p>\"" + escapeHtml(r.comment) + "\"</p>" +
-                                "<h4 style='margin-top:20px;color:var(--accent);'>&mdash; " + escapeHtml(r.client_name) + "</h4>" +
-                                "</div>"
-                            )
-                        })
-                        .join("")
                     return
                 }
 
@@ -557,8 +535,8 @@
                         )
                     })
                     .join("")
+                document.getElementById('reviewsSection').style.display = ''
             } catch (err) {
-                slider.innerHTML = "<p class='reviews-empty'>Could not load reviews right now.</p>"
                 console.error("Reviews load error:", err)
             }
         }
