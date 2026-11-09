@@ -29,6 +29,25 @@
         .post-body img { max-width: 100%; border-radius: 8px; margin: 20px 0; }
         .post-back { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; }
     </style>
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSQFSV8C97"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PSQFSV8C97');
+        document.addEventListener('click', function (e) {
+            var a = e.target.closest ? e.target.closest('a') : null;
+            if (!a) return;
+            var h = a.getAttribute('href') || '';
+            if (h.indexOf('wa.me') > -1) gtag('event', 'whatsapp_click', { link_url: h });
+            else if (h.indexOf('tel:') === 0) gtag('event', 'phone_click');
+            else if (h.indexOf('mailto:') === 0) gtag('event', 'email_click');
+        });
+        document.addEventListener('submit', function (e) {
+            if (e.target && e.target.id === 'contactForm') gtag('event', 'generate_lead', { form_name: 'quote_request' });
+        });
+    </script>
 </head>
 <body>
 
